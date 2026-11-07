@@ -5,3 +5,4 @@ dev-dist
 .env*
 *.log
 test-results
+public/*.ics

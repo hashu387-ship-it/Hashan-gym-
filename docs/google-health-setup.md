@@ -143,9 +143,9 @@ When you finish, the app must have exactly these five scopes, and no others:
 
 The app keeps your Fitbit connection in a locked form. This key locks and unlocks it.
 
-The key must be **32 random bytes, base64-encoded**. There are two ways to make one:
+The key must be a **random string of at least 32 characters**. There are two ways to make one:
 
-- **Easiest:** open https://generate-secret.vercel.app/32 in your browser. The page shows one line of random letters and numbers. Copy it.
+- **Easiest:** open https://generate-secret.vercel.app/32 in your browser. The page shows one line of 32 random letters and numbers. Copy it.
 - **Alternative:** on any computer, open a terminal (on a Mac, open the **Terminal** app). Run this command and copy the line it prints:
 
   ```
@@ -274,7 +274,7 @@ Good to know:
 | You see | What to do |
 |---|---|
 | "Fitbit connection expired" | Tap **Reconnect**. |
-| "Not configured" | An environment variable is missing, or you did not redeploy. Check all five in step 7, then redeploy. |
+| "Fitbit sync is not set up yet" | An environment variable is missing, or you did not redeploy. Check all five in step 7, then redeploy. |
 | "Account not linked" | Open the Google Health app and finish its setup. Then try again. |
 | "Wrong account" | Sign in with the email you set in `ALLOWED_EMAIL`. |
 | You want to disconnect | Tap **Plan**, then **Settings**, then **Fitbit**, then **Disconnect**. |

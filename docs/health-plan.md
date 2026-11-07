@@ -252,6 +252,10 @@ These numbers are estimates for typical restaurant portions. You can change any 
 
 **Gym hours.** Most Riyadh branches are open 24 hours, but they close on Friday from 10 AM to 1 PM. Check your own branch.
 
+### How to do each exercise
+
+In the app, every exercise has a **How to** button. It shows a moving demo (the start and end position, looping), the steps to follow, and the common mistakes to avoid. Tap the photo to pause it.
+
 ### How to read the session tables
 
 - **Main lifts** are in bold and marked "(main)". They are the most important exercise of the day.
