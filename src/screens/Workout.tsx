@@ -1,6 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useRef, useState } from 'react';
 import { HowTo } from '../components/ExerciseDemo';
+import { IconCheck, IconPlay, IconSwap } from '../components/icons';
 import { NumInput, Sheet, showToast } from '../components/ui';
 import { db, type WorkoutLog } from '../db/db';
 import { getWorkout, lastSetsFor, saveSettings, workoutId } from '../db/queries';
@@ -57,14 +58,14 @@ export function WorkoutScreen() {
           <span className="phase-pill">{ctx.label}</span>
         </div>
       </div>
-      <label className="field" style={{ marginTop: 12 }}>
+      <label className="field" style={{ marginTop: 14 }}>
         Session
         <select value={sessionId} onChange={(e) => setPicked(e.target.value as SessionId)}>
           {PICKABLE.map((id) => <option key={id} value={id}>{SESSIONS[id].title}{id === ctx.sessionId ? ' (planned)' : ''}</option>)}
         </select>
       </label>
 
-      <div className="card flat">
+      <div className="card white">
         {session.notes.map((n, i) => <p key={i} className="small">{n}</p>)}
         {session.kind !== 'rest' && session.kind !== 'cardio' && <p className="small muted" style={{ margin: 0 }}>{PHASE_EFFORT[ctx.phase]}</p>}
       </div>
@@ -159,18 +160,20 @@ function ExerciseCard({ item, dose, date, sets, swapId, onHowTo, onSwap, onSet }
   return (
     <section className="card" aria-label={ex.name}>
       <div className="ex-head">
-        <button className="btn secondary" style={{ padding: 0, minHeight: 0, borderRadius: 8 }} onClick={() => onHowTo(ex)} aria-label={`How to do ${ex.name}`}>
+        <button className="thumb-btn" onClick={() => onHowTo(ex)} aria-label={`How to do ${ex.name}`}>
           <img className="ex-thumb" src={demoFrames(ex)[1]} alt="" loading="lazy" />
+          <span className="play"><IconPlay /></span>
         </button>
         <div className="grow">
           <h3 style={{ margin: 0 }}>{ex.name}</h3>
-          <div className="small"><span className="dose">{doseText(dose, item.unit)}</span>{item.main && <span className="muted"> - main lift</span>}</div>
+          <div className="small"><span className="dose">{doseText(dose, item.unit)}</span></div>
           <div className="tiny muted">{doneCount}/{count} done</div>
         </div>
+        {item.main && <span className="chip coral">Main lift</span>}
       </div>
       <div className="row wrap" style={{ marginTop: 8 }}>
-        <button className="btn secondary small" onClick={() => onHowTo(ex)}>How to</button>
-        {item.alternatives.length > 0 && <button className="btn secondary small" onClick={onSwap}>Swap</button>}
+        <button className="chip" onClick={() => onHowTo(ex)}><IconPlay width={14} height={14} />How to</button>
+        {item.alternatives.length > 0 && <button className="chip soft" onClick={onSwap}><IconSwap width={16} height={16} />Swap</button>}
       </div>
       {hint && <div className={`hint${hint.includes('try') ? ' up' : ''}`}>{hint}</div>}
       <div className="sets">
@@ -200,7 +203,7 @@ function ExerciseCard({ item, dose, date, sets, swapId, onHowTo, onSwap, onSet }
                   reps: s.reps ?? prev?.reps ?? dose.high,
                   done: !s.done,
                 })}>
-                &#10003;
+                <IconCheck />
               </button>
             </div>
           );

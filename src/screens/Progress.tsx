@@ -1,11 +1,13 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useState } from 'react';
+import { MiniBars, Ring, Wave, WeekBars } from '../components/charts';
+import { IconChevronLeft, IconChevronRight, IconDumbbell, IconFlame, IconFood, IconGlass, IconSteps } from '../components/icons';
 import { LineChart } from '../components/LineChart';
 import { NumInput, Sheet, showToast } from '../components/ui';
 import { db, type DayLog, type WorkoutLog } from '../db/db';
 import { bmi, dayTotals, targetWeightAt } from '../logic/checks';
 import { dayContext } from '../logic/context';
-import { addDays, dayMonth, diffDays } from '../logic/dates';
+import { addDays, dayMonth, diffDays, weekday } from '../logic/dates';
 import { bestE1rm } from '../logic/strength';
 import { EXERCISE_BY_ID } from '../plan/exercises';
 import { SESSIONS } from '../plan/program';
@@ -32,8 +34,9 @@ export function ProgressScreen() {
 
   return (
     <div>
-      <h1>Progress</h1>
-      <div className="grid3" style={{ marginTop: 12 }}>
+      <WeekStats days={days} workouts={workouts} />
+      <h2 style={{ marginTop: 24 }}>Body</h2>
+      <div className="grid3">
         <div className="stat"><div className="v">{latest ? latest.kg : settings.startWeightKg}</div><div className="k">kg now</div></div>
         <div className="stat"><div className="v">{lost > 0 ? `-${lost}` : lost}</div><div className="k">kg since 96</div></div>
         <div className="stat"><div className="v">{bmi(latest?.kg ?? settings.startWeightKg, settings.heightCm)}</div><div className="k">BMI</div></div>
@@ -180,5 +183,84 @@ function AddWeighIn({ today, onClose }: { today: string; onClose: () => void }) 
         onClose();
       }}>Save</button>
     </Sheet>
+  );
+}
+
+const DAY_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+function WeekStats({ days, workouts }: { days: DayLog[]; workouts: WorkoutLog[] }) {
+  const { settings, today } = useApp();
+  const [offset, setOffset] = useState(0);
+  const start = addDays(today, -weekday(today) + offset * 7);
+  const dates = Array.from({ length: 7 }, (_, i) => addDays(start, i));
+  const byDate = new Map(days.map((d) => [d.date, d]));
+  const logs = dates.map((d) => byDate.get(d));
+  const past = dates.filter((d) => d <= today);
+  const ctx = dayContext(start, settings);
+  const weekLabel = offset === 0 ? 'This week' : ctx.week ? `Week ${ctx.week}` : `${dayMonth(start)}`;
+
+  const eaten = logs.filter((d): d is DayLog => !!d && d.meals.length > 0).map((d) => dayTotals(d.meals));
+  const avgKcal = avg(eaten.map((e) => e.kcal));
+  const avgProtein = avg(eaten.map((e) => e.protein));
+  const planned = past.filter((d) => SESSIONS[dayContext(d, settings).sessionId].kind !== 'rest').length;
+  const done = new Set(workouts.filter((w) => dates.includes(w.date) && w.sets.some((s) => s.done)).map((w) => w.date)).size;
+  const sets = workouts.filter((w) => dates.includes(w.date)).reduce((a, w) => a + w.sets.filter((s) => s.done).length, 0);
+  const burned = logs.map((d) => d?.kcalBurned?.value ?? null);
+  const water = logs.map((d) => (d?.waterMl ? d.waterMl : null));
+  const kcalTarget = dayContext(today, settings).kcalTarget;
+
+  return (
+    <>
+      <div className="title-bar">
+        <button className="round-btn" aria-label="Previous week" onClick={() => setOffset(offset - 1)}><IconChevronLeft /></button>
+        <h1>Statistics</h1>
+        <button className="round-btn" aria-label="Next week" disabled={offset >= 0} onClick={() => setOffset(offset + 1)}><IconChevronRight /></button>
+      </div>
+
+      <section className="card" aria-label="Walking steps">
+        <div className="spread">
+          <div className="card-title"><span className="icon-circle peach"><IconSteps /></span><h2>Walking steps</h2></div>
+          <span className="chip">{weekLabel}</span>
+        </div>
+        <WeekBars
+          target={dayContext(today, settings).stepsTarget}
+          days={dates.map((d, i) => ({ label: DAY_SHORT[i], value: logs[i]?.steps?.value ?? null, today: d === today, future: d > today }))}
+        />
+      </section>
+
+      <section className="card" aria-label="Activity">
+        <div className="activity">
+          <div>
+            <h2 style={{ marginBottom: 4 }}>Activity</h2>
+            <div className="big num">{avgKcal === null ? '--' : Math.round(avgKcal).toLocaleString('en-US')}</div>
+            <div className="tiny muted">average kcal eaten a day</div>
+            <div className="stat-line"><IconFood />Protein<span className="v">{avgProtein === null ? '--' : `${Math.round(avgProtein)} g`}</span></div>
+            <div className="stat-line"><IconDumbbell />Gym days<span className="v">{done}/{planned}</span></div>
+            <div className="stat-line"><IconFlame />Sets done<span className="v">{sets}</span></div>
+          </div>
+          <Ring value={avgKcal ?? 0} max={kcalTarget} size={124} stroke={14} label="Average calories against target">
+            <span className="v" style={{ fontSize: 24 }}>{avgKcal === null ? '--' : Math.round(avgKcal)}</span>
+            <span className="k">of {kcalTarget}</span>
+          </Ring>
+        </div>
+      </section>
+
+      <div className="grid-cards">
+        <div className="card mini">
+          <div className="card-title"><span className="icon-circle green"><IconFlame /></span><div><h2>Burn score</h2><div className="sub">{burned.some((b) => b !== null) ? 'kcal burned (Fitbit)' : 'Add burn data'}</div></div></div>
+          <div className="mini-foot" style={{ marginTop: 'auto' }}>
+            <span className="mid num">{fmt(avg(burned.filter((b): b is number => b !== null)))}<span className="tiny muted"> kcal</span></span>
+          </div>
+          <MiniBars values={burned} color="var(--green)" />
+        </div>
+        <div className="card mini">
+          <div className="card-title"><span className="icon-circle blue"><IconGlass /></span><div><h2>Drink up</h2><div className="sub">average glasses</div></div></div>
+          <div className="mini-foot" style={{ marginTop: 'auto' }}>
+            <span className="mid num">{fmt(avg(water.filter((w): w is number => w !== null).map((w) => w / 250)), 1)}<span className="tiny muted"> glass</span></span>
+          </div>
+          <Wave values={water} color="var(--blue)" />
+        </div>
+      </div>
+    </>
   );
 }

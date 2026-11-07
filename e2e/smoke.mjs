@@ -35,7 +35,11 @@ const shot = async (name) => shots && page.screenshot({ path: `${shots}/${name}.
 
 try {
   await page.goto(BASE);
-  await page.getByRole('heading', { name: 'Today' }).waitFor();
+  // Welcome screen first
+  await page.getByRole('dialog', { name: 'Welcome to Hashan Fit' }).waitFor();
+  await shot('welcome');
+  await page.getByRole('button', { name: "Let's start" }).click();
+  await page.getByRole('heading', { name: 'Hashan' }).waitFor();
 
   // Breakfast in one tap
   await page.getByRole('button', { name: /Add usual breakfast/ }).click();
@@ -46,13 +50,14 @@ try {
   await page.getByRole('searchbox', { name: 'Search food' }).fill('tandoori');
   await page.getByRole('button', { name: 'Add Tandoori chicken' }).click();
   await page.getByRole('button', { name: 'Close' }).click();
-  const kcal = await page.getByRole('progressbar', { name: 'Calories' }).getAttribute('aria-valuenow');
-  if (kcal !== '950') fail(`expected 950 kcal after breakfast + tandoori, got ${kcal}`);
-  await page.getByRole('button', { name: '+250 ml' }).click();
+  await page.getByRole('img', { name: 'Calories 950 of 1800' }).waitFor({ timeout: 3000 })
+    .catch(() => fail('expected 950 kcal after breakfast + tandoori'));
+  await page.getByRole('button', { name: 'Add a glass' }).click();
+  await page.waitForTimeout(300);
   await shot('today');
 
   // Workout: pick Upper A, open how-to demo, log a set
-  await page.getByRole('button', { name: 'Workout' }).click();
+  await page.getByRole('button', { name: 'Workout', exact: true }).click();
   await page.getByLabel('Session').selectOption('upperA');
   await page.getByRole('heading', { name: 'Upper A' }).waitFor();
   await page.getByRole('button', { name: 'How to' }).first().click();
@@ -75,7 +80,8 @@ try {
   await shot('workout');
 
   // Progress: add a weigh-in
-  await page.getByRole('button', { name: 'Progress' }).click();
+  await page.getByRole('button', { name: 'Stats', exact: true }).click();
+  await page.getByRole('heading', { name: 'Statistics' }).waitFor();
   await page.getByRole('button', { name: '+ Weigh-in' }).click();
   await page.getByLabel('Weight', { exact: true }).fill('95.4');
   await page.getByRole('button', { name: 'Save', exact: true }).click();
@@ -83,7 +89,7 @@ try {
   await shot('progress');
 
   // Plan: backup export downloads a file
-  await page.getByRole('button', { name: 'Plan' }).click();
+  await page.getByRole('button', { name: 'Plan', exact: true }).click();
   await page.getByRole('heading', { name: 'Plan', exact: true }).waitFor();
   const [download] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Save backup' }).click()]);
   if (!download.suggestedFilename().startsWith('hashan-fit-backup-')) fail('backup file name');
@@ -93,9 +99,12 @@ try {
   const ics = await (await fetch(`${BASE}/work-days.ics`)).text();
   if (!ics.startsWith('BEGIN:VCALENDAR')) fail('calendar file not served');
 
-  // Data survives a reload
+  // Data survives a reload, and the welcome screen does not come back
   await page.reload();
   await page.getByText('2-egg omelette').waitFor();
+  if (await page.getByRole('dialog', { name: 'Welcome to Hashan Fit' }).count()) fail('welcome screen shown again');
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await shot('home');
 
   if (errors.length) fail(`page errors:\n${errors.join('\n')}`);
   console.log('smoke test passed');

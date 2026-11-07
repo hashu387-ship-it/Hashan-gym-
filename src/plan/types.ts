@@ -111,6 +111,8 @@ export interface Settings {
   foodOverrides: Record<string, { kcal: number; protein: number }>;
   lastBackupAt?: string;
   lastSyncAt?: string;
+  /** Set once the first-run welcome screen has been passed */
+  welcomed?: boolean;
 }
 
 export interface DayContext {
