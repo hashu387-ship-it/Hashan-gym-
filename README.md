@@ -1,5 +1,7 @@
 # Hashan Fit
 
+![Hashan Fit screens: welcome, home, statistics, workout, dark mode](docs/design-preview.jpg)
+
 A phone web app for Hashan's 3-month fat-loss plan. Install it to the iPhone home screen and it works offline.
 
 - **Today**: calorie, protein, steps and water targets; meals with a one-tap usual breakfast and a Sri Lankan / Indian delivery guide; Lipo 6 window; Friday weigh-in; two-week check.
