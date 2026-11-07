@@ -556,3 +556,12 @@ docs/          health-plan.md (Part A as a readable document),
 ## B10. Not included (on purpose)
 
 Native iOS or Android app, push notifications, cloud database or login, multiple users, Arabic language, progress photos, barcode scanning, automatic food lookup, and syncing HRV, SpO2 or skin temperature. Any of these can be added later.
+
+---
+
+## Changes after review (2026-11-07)
+
+- **How-to demos.** Every exercise has a How to sheet: looping start and end photos (public-domain Free Exercise DB), steps and common mistakes.
+- **New design.** Pastel cards, Archivo Black headings, black icon tab bar, welcome screen, Home dashboard and Statistics screen, as in Hashan's reference image. Light theme with automatic dark mode.
+- **Friday is the only rest day.** Saturday becomes a sixth weight session, "Full body": hack squat, dumbbell bench press, machine row, seated dumbbell shoulder press (all 3x10-12), walking lunge 2x10 each leg, plank 3x30-45 s, then the 15-minute incline walk. The calendar's Saturday event is now Gym. Ramadan keeps its 4 lighter sessions.
+- **Weight to use.** Every weighted exercise has a starting weight for someone coming back to training (for example bench press 40 kg, back squat 40 kg, dumbbell curl 8 kg each). The Workout screen shows "Use X kg": the starting weight the first time, then one step more after every set reached the top of the rep range, otherwise the same weight, and about 10 percent lighter in the recovery week and Ramadan. Steps: bar 2.5 kg upper / 5 kg lower, dumbbells 2 kg, single kettlebell or dumbbell 4 kg, machines 5 kg upper / 10 kg lower, assisted pull-up 5 kg less assistance.

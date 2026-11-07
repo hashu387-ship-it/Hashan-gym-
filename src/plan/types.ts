@@ -15,6 +15,7 @@ export type SessionId =
   | 'upperB'
   | 'lowerB'
   | 'circuit'
+  | 'fullBody'
   | 'cardio'
   | 'rest'
   | 'ramadanWalk';
@@ -53,6 +54,19 @@ export interface ExerciseInfo {
   muscles: string;
   how: string[];
   avoid: string[];
+  /** Starting weight for someone out of practice. Omitted = body weight. */
+  start?: StartWeight;
+}
+
+/**
+ * How a weight is counted: `bar` total on the bar (bar + plates), `each` per dumbbell or hand,
+ * `single` one dumbbell or kettlebell, `machine` on the stack or sled, `assist` machine assistance (less is harder).
+ */
+export type LoadKind = 'bar' | 'each' | 'single' | 'machine' | 'assist';
+
+export interface StartWeight {
+  kg: number;
+  kind: LoadKind;
 }
 
 export interface Dose {

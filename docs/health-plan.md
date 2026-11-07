@@ -242,13 +242,11 @@ These numbers are estimates for typical restaurant portions. You can change any 
 | Wednesday | Lower B (hip hinge), then incline walk | 7:00 PM, about 75 minutes |
 | Thursday | Full-body circuit, then incline walk | 7:00 PM, about 75 minutes |
 | Friday | Rest. Steps only | - |
-| Saturday | Easy cardio | 7:00 PM, 45 to 60 minutes |
+| Saturday | Full body (squat, press, row), then incline walk | 7:00 PM, about 75 minutes |
 
-**Sunday to Thursday.** About 60 minutes of weights. Then a 15-minute incline treadmill walk: incline 8 to 12 percent, speed 5 to 5.5 km/h.
+**Saturday to Thursday.** Six weight sessions. About 60 minutes of weights each time. Then a 15-minute incline treadmill walk: incline 8 to 12 percent, speed 5 to 5.5 km/h.
 
-**Saturday.** 45 to 60 minutes of easy cardio. Use the incline walk, the bike or the elliptical. Keep your heart rate at about 113 to 132 bpm.
-
-**Friday.** Rest. Just get your steps.
+**Friday.** Your only rest day. Just get your steps.
 
 **Gym hours.** Most Riyadh branches are open 24 hours, but they close on Friday from 10 AM to 1 PM. Check your own branch.
 
@@ -326,11 +324,20 @@ Then finish with core:
 | Dead bug | 3 x 10 |
 | Side plank | 2 x 30 seconds each side |
 
-### Saturday: easy cardio
+### Saturday: full body
 
-- 45 to 60 minutes.
-- Incline walk, bike or elliptical. You choose.
-- Heart rate about 113 to 132 bpm. This should feel easy.
+These are different exercises from the other days, so those muscles can recover.
+
+| Exercise | Sets x reps |
+|---|---|
+| Hack squat | 3 x 10-12 |
+| Dumbbell bench press | 3 x 10-12 |
+| Machine row | 3 x 10-12 |
+| Seated dumbbell shoulder press | 3 x 10-12 |
+| Walking lunge | 2 x 10 each leg |
+| Plank | 3 x 30-45 seconds |
+
+Then the 15-minute incline walk.
 
 ### When a machine is busy
 
@@ -366,13 +373,63 @@ The plan has phases. Each phase has its own rule.
 
 **What "reps before failure" means.** "Failure" is the rep you cannot finish with good form. "Stop about 3 reps before failure" means: stop the set when you feel you could still do about 3 more good reps.
 
+### What weight to use
+
+The app shows the weight to use on every exercise. These are the starting weights. They are light on purpose, because you are coming back to training.
+
+| Day | Exercise | Start with | Then add |
+|---|---|---|---|
+| Sunday | Barbell bench press | 40 kg total (bar + plates) | 2.5 kg |
+| Sunday | Seated cable row | 35 kg on the machine | 5 kg |
+| Sunday | Incline dumbbell press | 14 kg each dumbbell | 2 kg |
+| Sunday | Seated dumbbell shoulder press | 10 kg each dumbbell | 2 kg |
+| Sunday | Lateral raise | 5 kg each dumbbell | 2 kg |
+| Sunday | Triceps rope pushdown | 15 kg on the machine | 5 kg |
+| Monday | Back squat | 40 kg total (bar + plates) | 5 kg |
+| Monday | Dumbbell Romanian deadlift | 14 kg each dumbbell | 2 kg |
+| Monday | Leg press | 60 kg on the machine | 10 kg |
+| Monday | Lying leg curl | 20 kg on the machine | 10 kg |
+| Monday | Standing calf raise | 40 kg on the machine | 10 kg |
+| Tuesday | Lat pulldown | 40 kg on the machine | 5 kg |
+| Tuesday | Chest-supported row | 12 kg each dumbbell | 2 kg |
+| Tuesday | Machine chest press | 30 kg on the machine | 5 kg |
+| Tuesday | Face pull | 12.5 kg on the machine | 5 kg |
+| Tuesday | Dumbbell curl | 8 kg each dumbbell | 2 kg |
+| Tuesday | Hammer curl | 8 kg each dumbbell | 2 kg |
+| Wednesday | Trap bar deadlift | 60 kg total (bar + plates) | 5 kg |
+| Wednesday | Bulgarian split squat | Body weight | - |
+| Wednesday | Hip thrust | 40 kg total (bar + plates) | 5 kg |
+| Wednesday | Leg extension | 25 kg on the machine | 10 kg |
+| Wednesday | Seated calf raise | 20 kg on the machine | 10 kg |
+| Wednesday | Cable crunch | 25 kg on the machine | 5 kg |
+| Thursday | Goblet squat | 16 kg one weight | 4 kg |
+| Thursday | Push-up | Body weight | - |
+| Thursday | One-arm dumbbell row | 16 kg one weight | 4 kg |
+| Thursday | Kettlebell swing | 16 kg one weight | 4 kg |
+| Thursday | Farmer carry | 20 kg each dumbbell | 2 kg |
+| Thursday | Dead bug | Body weight | - |
+| Saturday | Hack squat | 40 kg on the machine | 10 kg |
+| Saturday | Dumbbell bench press | 16 kg each dumbbell | 2 kg |
+| Saturday | Machine row | 30 kg on the machine | 5 kg |
+| Saturday | Seated dumbbell shoulder press | 10 kg each dumbbell | 2 kg |
+| Saturday | Walking lunge | Body weight | - |
+
+**How to read it:**
+
+- "total (bar + plates)": the whole bar with plates. An empty Olympic bar is 20 kg, so 40 kg means 10 kg on each side.
+- "each dumbbell": the weight of one dumbbell. Hold one in each hand.
+- "on the machine": the number on the weight stack, or the plates you add.
+- Machines are different in every gym. If the starting weight feels very heavy or very light, change it on your first set.
+
+**First session:** if the last reps feel easy (you could do 5 or more extra), add one step on the next set. If you cannot reach the lowest number of reps, go one step lighter.
+
 ### Progression: when to add weight
 
-- When **every set** reaches the **top of the rep range** with good form, add weight next time.
-- Upper-body lifts: add **2.5 kg**.
-- Lower-body lifts: add **5 kg**.
+- When **every set** reaches the **top of the rep range** with good form, the app adds one step next time (the "Then add" column above).
+- If you miss the top, stay at the same weight until you reach it.
+- In the recovery week (week 9) and in Ramadan, the app tells you to go about 10 percent lighter.
 
-The app helps you. For example, it may say: "Last time 3x10 at 60 kg - try 62.5 kg".
+For example, the app may say: "Use 42.5 kg. Last time 3x10 at 40 kg. You hit every rep, so add 2.5 kg.".
 
 ### Rest between sets
 
@@ -406,7 +463,7 @@ You set your own prayer times. Isha is around 6:40 PM, before the 7 PM gym.
 | 9:00 AM | Lipo 6, 1 capsule (8 Nov to 2 Jan only) |
 | 1:00 PM | Lunch, then a 10-minute walk |
 | 4:30 PM | Snack |
-| 7:00 PM | Gym (Sunday to Thursday) or cardio (Saturday) |
+| 7:00 PM | Gym (Saturday to Thursday). Friday is rest |
 | 8:45 PM | Dinner, finished by 9:15 |
 | 10:00 PM | Screens away, wind down |
 | 10:30 PM | Sleep |

@@ -319,3 +319,6 @@ code { background: var(--card-hi); padding: 1px 5px; border-radius: 6px; font-si
 }
 
 .phase-pill { display: inline-flex; align-items: center; margin-top: 8px; min-height: 30px; padding: 4px 12px; border-radius: 999px; background: var(--blue); color: #0c0e10; font-size: 13px; font-weight: 600; }
+
+.weight-box { margin-top: 12px; background: var(--card-hi); border-radius: 18px; padding: 10px 14px; }
+.weight-box.up { box-shadow: inset 0 0 0 2px var(--lime); }

@@ -9,6 +9,7 @@ export const EXERCISES: ExerciseInfo[] = [
   // ---------- Upper A ----------
   {
     id: 'bench-press', name: 'Barbell bench press', body: 'upper', demo: 'Barbell_Bench_Press_-_Medium_Grip',
+    start: { kg: 40, kind: 'bar' },
     muscles: 'Chest, front shoulders, triceps',
     how: [
       'Lie on the bench with eyes under the bar, feet flat on the floor.',
@@ -20,6 +21,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'seated-cable-row', name: 'Seated cable row', body: 'upper', demo: 'Seated_Cable_Rows',
+    start: { kg: 35, kind: 'machine' },
     muscles: 'Middle back, lats, biceps',
     how: [
       'Sit with feet on the platform and knees slightly bent. Hold the handle with straight arms.',
@@ -31,6 +33,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'incline-db-press', name: 'Incline dumbbell press', body: 'upper', demo: 'Incline_Dumbbell_Press',
+    start: { kg: 14, kind: 'each' },
     muscles: 'Upper chest, front shoulders, triceps',
     how: [
       'Set the bench to about 30 degrees. Sit back with a dumbbell on each thigh.',
@@ -42,6 +45,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'db-shoulder-press', name: 'Seated dumbbell shoulder press', body: 'upper', demo: 'Seated_Dumbbell_Press',
+    start: { kg: 10, kind: 'each' },
     muscles: 'Shoulders, triceps',
     how: [
       'Sit on a bench with an upright back support. Dumbbells at shoulder height, palms forward.',
@@ -53,6 +57,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'lateral-raise', name: 'Lateral raise', body: 'upper', demo: 'Side_Lateral_Raise',
+    start: { kg: 5, kind: 'each' },
     muscles: 'Side shoulders',
     how: [
       'Stand tall with a light dumbbell in each hand at your sides.',
@@ -64,6 +69,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'rope-pushdown', name: 'Triceps rope pushdown', body: 'upper', demo: 'Triceps_Pushdown_-_Rope_Attachment',
+    start: { kg: 15, kind: 'machine' },
     muscles: 'Triceps',
     how: [
       'Attach a rope to a high cable. Hold one end in each hand, elbows tucked at your sides.',
@@ -77,6 +83,7 @@ export const EXERCISES: ExerciseInfo[] = [
   // ---------- Lower A ----------
   {
     id: 'back-squat', name: 'Back squat', body: 'lower', demo: 'Barbell_Squat',
+    start: { kg: 40, kind: 'bar' },
     muscles: 'Thighs, glutes, lower back',
     how: [
       'Set the bar in the rack at chest height. Step under it so it sits on your upper back, not your neck.',
@@ -88,6 +95,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'db-rdl', name: 'Dumbbell Romanian deadlift', body: 'lower', demo: 'Stiff-Legged_Dumbbell_Deadlift',
+    start: { kg: 14, kind: 'each' },
     muscles: 'Hamstrings, glutes, lower back',
     how: [
       'Stand with dumbbells in front of your thighs, knees slightly bent.',
@@ -99,6 +107,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'leg-press', name: 'Leg press', body: 'lower', demo: 'Leg_Press',
+    start: { kg: 60, kind: 'machine' },
     muscles: 'Thighs, glutes',
     how: [
       'Sit in the machine with your back flat against the pad. Feet shoulder-width on the platform.',
@@ -110,6 +119,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'lying-leg-curl', name: 'Lying leg curl', body: 'lower', demo: 'Lying_Leg_Curls',
+    start: { kg: 20, kind: 'machine' },
     muscles: 'Hamstrings',
     how: [
       'Lie face down with the pad just above your heels and knees just off the bench edge.',
@@ -121,6 +131,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'standing-calf', name: 'Standing calf raise', body: 'lower', demo: 'Standing_Calf_Raises',
+    start: { kg: 40, kind: 'machine' },
     muscles: 'Calves',
     how: [
       'Stand on the edge of the platform with the balls of your feet, shoulders under the pads.',
@@ -145,6 +156,7 @@ export const EXERCISES: ExerciseInfo[] = [
   // ---------- Upper B ----------
   {
     id: 'lat-pulldown', name: 'Lat pulldown', body: 'upper', demo: 'Wide-Grip_Lat_Pulldown',
+    start: { kg: 40, kind: 'machine' },
     muscles: 'Lats, upper back, biceps',
     how: [
       'Sit with thighs under the pad. Grip the bar a little wider than shoulders.',
@@ -156,6 +168,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'chest-supported-row', name: 'Chest-supported row', body: 'upper', demo: 'Dumbbell_Incline_Row',
+    start: { kg: 12, kind: 'each' },
     muscles: 'Middle back, rear shoulders, biceps',
     how: [
       'Set a bench to about 30-45 degrees. Lie face down with your chest on the pad.',
@@ -167,6 +180,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'machine-chest-press', name: 'Machine chest press', body: 'upper', demo: 'Machine_Bench_Press',
+    start: { kg: 30, kind: 'machine' },
     muscles: 'Chest, front shoulders, triceps',
     how: [
       'Set the seat so the handles are level with the middle of your chest.',
@@ -178,6 +192,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'face-pull', name: 'Face pull', body: 'upper', demo: 'Face_Pull',
+    start: { kg: 12.5, kind: 'machine' },
     muscles: 'Rear shoulders, upper back',
     how: [
       'Set a rope on a cable at face height. Hold the ends with thumbs pointing back toward you.',
@@ -189,6 +204,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'db-curl', name: 'Dumbbell curl', body: 'upper', demo: 'Dumbbell_Bicep_Curl',
+    start: { kg: 8, kind: 'each' },
     muscles: 'Biceps',
     how: [
       'Stand tall with dumbbells at your sides, palms facing forward.',
@@ -200,6 +216,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'hammer-curl', name: 'Hammer curl', body: 'upper', demo: 'Hammer_Curls',
+    start: { kg: 8, kind: 'each' },
     muscles: 'Biceps, forearms',
     how: [
       'Stand with dumbbells at your sides, palms facing your body.',
@@ -213,6 +230,7 @@ export const EXERCISES: ExerciseInfo[] = [
   // ---------- Lower B ----------
   {
     id: 'trap-bar-deadlift', name: 'Trap bar deadlift', body: 'lower', demo: 'Trap_Bar_Deadlift',
+    start: { kg: 60, kind: 'bar' },
     muscles: 'Glutes, thighs, hamstrings, back',
     how: [
       'Stand in the middle of the trap bar, feet hip-width.',
@@ -235,6 +253,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'hip-thrust', name: 'Hip thrust', body: 'lower', demo: 'Barbell_Hip_Thrust',
+    start: { kg: 40, kind: 'bar' },
     muscles: 'Glutes, hamstrings',
     how: [
       'Sit on the floor with your upper back against a bench and a padded bar over your hips.',
@@ -246,6 +265,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'leg-extension', name: 'Leg extension', body: 'lower', demo: 'Leg_Extensions',
+    start: { kg: 25, kind: 'machine' },
     muscles: 'Front thighs',
     how: [
       'Sit in the machine with the pad on your lower shins and knees in line with the machine pivot.',
@@ -257,6 +277,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'seated-calf', name: 'Seated calf raise', body: 'lower', demo: 'Seated_Calf_Raise',
+    start: { kg: 20, kind: 'machine' },
     muscles: 'Calves (lower part)',
     how: [
       'Sit with the pad on your lower thighs and the balls of your feet on the platform.',
@@ -268,6 +289,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'cable-crunch', name: 'Cable crunch', body: 'core', demo: 'Cable_Crunch',
+    start: { kg: 25, kind: 'machine' },
     muscles: 'Stomach',
     how: [
       'Kneel below a high cable holding a rope beside your head.',
@@ -281,6 +303,7 @@ export const EXERCISES: ExerciseInfo[] = [
   // ---------- Thursday circuit ----------
   {
     id: 'goblet-squat', name: 'Goblet squat', body: 'lower', demo: 'Goblet_Squat',
+    start: { kg: 16, kind: 'single' },
     muscles: 'Thighs, glutes, core',
     how: [
       'Hold one dumbbell or kettlebell against your chest with both hands.',
@@ -303,6 +326,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'one-arm-db-row', name: 'One-arm dumbbell row', body: 'upper', demo: 'One-Arm_Dumbbell_Row',
+    start: { kg: 16, kind: 'single' },
     muscles: 'Lats, middle back, biceps',
     how: [
       'Put one knee and the same hand on a bench. Back flat, like a table.',
@@ -314,6 +338,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'kb-swing', name: 'Kettlebell swing', body: 'full', demo: 'One-Arm_Kettlebell_Swings',
+    start: { kg: 16, kind: 'single' },
     muscles: 'Glutes, hamstrings, back, core',
     how: [
       'Stand with feet a little wider than shoulders. Hold the kettlebell with both hands.',
@@ -325,6 +350,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'farmer-carry', name: 'Farmer carry', body: 'full', demo: 'Farmers_Walk',
+    start: { kg: 20, kind: 'each' },
     muscles: 'Grip, shoulders, core, legs',
     how: [
       'Pick up a heavy dumbbell in each hand, standing tall.',
@@ -360,6 +386,7 @@ export const EXERCISES: ExerciseInfo[] = [
   // ---------- Alternatives ----------
   {
     id: 'db-bench', name: 'Dumbbell bench press', body: 'upper', demo: 'Dumbbell_Bench_Press',
+    start: { kg: 16, kind: 'each' },
     muscles: 'Chest, front shoulders, triceps',
     how: [
       'Lie on a flat bench with dumbbells at chest level, palms facing your feet.',
@@ -371,6 +398,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'hack-squat', name: 'Hack squat', body: 'lower', demo: 'Hack_Squat',
+    start: { kg: 40, kind: 'machine' },
     muscles: 'Thighs, glutes',
     how: [
       'Stand in the machine with shoulders under the pads and back flat on the pad.',
@@ -382,6 +410,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'smith-squat', name: 'Smith machine squat', body: 'lower', demo: 'Smith_Machine_Squat',
+    start: { kg: 30, kind: 'bar' },
     muscles: 'Thighs, glutes',
     how: [
       'Set the bar at shoulder height and step under it, bar on your upper back.',
@@ -393,6 +422,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'assisted-pullup', name: 'Assisted pull-up', body: 'upper', demo: 'Band_Assisted_Pull-Up',
+    start: { kg: 40, kind: 'assist' },
     muscles: 'Lats, upper back, biceps',
     how: [
       'Use the assisted pull-up machine or a band looped on the bar under your knee or foot.',
@@ -404,6 +434,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'single-arm-pulldown', name: 'Single-arm pulldown', body: 'upper', demo: 'One_Arm_Lat_Pulldown',
+    start: { kg: 15, kind: 'machine' },
     muscles: 'Lats',
     how: [
       'Attach a single handle to the high cable and sit facing the machine.',
@@ -415,6 +446,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'deadlift', name: 'Conventional deadlift', body: 'lower', demo: 'Barbell_Deadlift',
+    start: { kg: 60, kind: 'bar' },
     muscles: 'Glutes, hamstrings, back, thighs',
     how: [
       'Stand with mid-foot under the bar, feet hip-width.',
@@ -426,6 +458,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'barbell-rdl', name: 'Barbell Romanian deadlift', body: 'lower', demo: 'Romanian_Deadlift',
+    start: { kg: 40, kind: 'bar' },
     muscles: 'Hamstrings, glutes',
     how: [
       'Stand holding a barbell at your thighs, knees slightly bent.',
@@ -437,6 +470,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'tbar-row', name: 'T-bar row', body: 'upper', demo: 'T-Bar_Row_with_Handle',
+    start: { kg: 20, kind: 'bar' },
     muscles: 'Middle back, lats',
     how: [
       'Stand over the T-bar, knees bent, hinged forward with a flat back.',
@@ -448,6 +482,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'machine-row', name: 'Machine row', body: 'upper', demo: 'Leverage_Iso_Row',
+    start: { kg: 30, kind: 'machine' },
     muscles: 'Middle back, lats',
     how: [
       'Set the seat so the handles are at chest height. Chest against the pad.',
@@ -459,6 +494,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'seated-leg-curl', name: 'Seated leg curl', body: 'lower', demo: 'Seated_Leg_Curl',
+    start: { kg: 25, kind: 'machine' },
     muscles: 'Hamstrings',
     how: [
       'Sit with the pad behind your lower calves and the thigh pad locked down.',
@@ -470,6 +506,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'glute-bridge', name: 'Glute bridge', body: 'lower', demo: 'Barbell_Glute_Bridge',
+    start: { kg: 40, kind: 'bar' },
     muscles: 'Glutes, hamstrings',
     how: [
       'Lie on your back, knees bent, feet flat. A barbell or plate on your hips if you want load.',
@@ -481,6 +518,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'cable-pull-through', name: 'Cable pull-through', body: 'lower', demo: 'Pull_Through',
+    start: { kg: 20, kind: 'machine' },
     muscles: 'Glutes, hamstrings',
     how: [
       'Set a rope on a low cable. Face away from the machine with the rope between your legs.',
@@ -503,6 +541,7 @@ export const EXERCISES: ExerciseInfo[] = [
   },
   {
     id: 'step-up', name: 'Dumbbell step-up', body: 'lower', demo: 'Dumbbell_Step_Ups',
+    start: { kg: 8, kind: 'each' },
     muscles: 'Thighs, glutes',
     how: [
       'Stand in front of a box or bench at knee height, dumbbells at your sides.',

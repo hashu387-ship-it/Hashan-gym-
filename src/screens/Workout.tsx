@@ -7,14 +7,14 @@ import { db, type WorkoutLog } from '../db/db';
 import { getWorkout, lastSetsFor, saveSettings, workoutId } from '../db/queries';
 import { dayContext } from '../logic/context';
 import { shortDate } from '../logic/dates';
-import { progressionHint, type SetLog } from '../logic/strength';
+import { weightAdvice, type SetLog } from '../logic/strength';
 import { EXERCISE_BY_ID, demoFrames } from '../plan/exercises';
 import { PHASE_EFFORT, SESSIONS, prescription, restSeconds, sessionItems } from '../plan/program';
-import type { Dose, ExerciseInfo, SessionId, SessionItem, SetUnit } from '../plan/types';
+import type { Dose, ExerciseInfo, PhaseId, SessionId, SessionItem, SetUnit } from '../plan/types';
 import { useApp } from '../state';
 
 const UNIT_LABEL: Record<SetUnit, string> = { reps: 'reps', seconds: 'sec', perSide: 'each side', metres: 'm', minutes: 'min' };
-const PICKABLE: SessionId[] = ['upperA', 'lowerA', 'upperB', 'lowerB', 'circuit', 'cardio', 'ramadanWalk', 'rest'];
+const PICKABLE: SessionId[] = ['upperA', 'lowerA', 'upperB', 'lowerB', 'circuit', 'fullBody', 'cardio', 'ramadanWalk', 'rest'];
 
 function doseText(d: Dose, unit: SetUnit): string {
   const range = d.low === d.high ? `${d.low}` : `${d.low}-${d.high}`;
@@ -82,6 +82,7 @@ export function WorkoutScreen() {
           key={`${sessionId}-${idx}`}
           item={it}
           dose={prescription(it, ctx.phase)}
+          phase={ctx.phase}
           date={date}
           sets={log?.sets ?? []}
           swapId={settings.swaps[it.exerciseId]}
@@ -139,9 +140,10 @@ export function WorkoutScreen() {
   );
 }
 
-function ExerciseCard({ item, dose, date, sets, swapId, onHowTo, onSwap, onSet }: {
+function ExerciseCard({ item, dose, phase, date, sets, swapId, onHowTo, onSwap, onSet }: {
   item: SessionItem;
   dose: Dose;
+  phase: PhaseId;
   date: string;
   sets: SetLog[];
   swapId?: string;
@@ -151,7 +153,8 @@ function ExerciseCard({ item, dose, date, sets, swapId, onHowTo, onSwap, onSet }
 }) {
   const ex = EXERCISE_BY_ID[swapId ?? item.exerciseId];
   const last = useLiveQuery(() => lastSetsFor(ex.id, date), [ex.id, date]) ?? [];
-  const hint = progressionHint(ex, item, last, dose);
+  const advice = weightAdvice(ex, item, last, dose, phase);
+  const useKg = advice?.kg ?? undefined;
   const count = item.unit === 'minutes' ? 1 : dose.sets;
   const mine = sets.filter((s) => s.exerciseId === ex.id);
   const doneCount = mine.filter((s) => s.done).length;
@@ -175,7 +178,17 @@ function ExerciseCard({ item, dose, date, sets, swapId, onHowTo, onSwap, onSet }
         <button className="chip" onClick={() => onHowTo(ex)}><IconPlay width={14} height={14} />How to</button>
         {item.alternatives.length > 0 && <button className="chip soft" onClick={onSwap}><IconSwap width={16} height={16} />Swap</button>}
       </div>
-      {hint && <div className={`hint${hint.includes('try') ? ' up' : ''}`}>{hint}</div>}
+      {advice && (
+        <div className={`weight-box${advice.up ? ' up' : ''}`}>
+          <div className="row" style={{ alignItems: 'baseline', gap: 6 }}>
+            <span className="tiny muted">Use</span>
+            <strong className="mid num">{advice.kg === null ? 'Body weight' : `${advice.kg} kg`}</strong>
+            {advice.kg !== null && <span className="small muted">{advice.label}</span>}
+            {advice.up && <span className="chip lime" style={{ marginLeft: 'auto' }}>Go up</span>}
+          </div>
+          <div className="tiny muted" style={{ marginTop: 4 }}>{advice.reason}</div>
+        </div>
+      )}
       <div className="sets">
         {Array.from({ length: count }, (_, i) => {
           const s = mine.find((x) => x.setIndex === i) ?? { exerciseId: ex.id, setIndex: i, done: false };
@@ -185,7 +198,7 @@ function ExerciseCard({ item, dose, date, sets, swapId, onHowTo, onSwap, onSet }
               <span className="set-n">{i + 1}</span>
               {withKg && (
                 <div>
-                  <NumInput ariaLabel={`${ex.name} set ${i + 1} kg`} value={s.kg} placeholder={prev?.kg !== undefined ? String(prev.kg) : 'kg'} step="0.5" min={0}
+                  <NumInput ariaLabel={`${ex.name} set ${i + 1} kg`} value={s.kg} placeholder={useKg !== undefined ? String(useKg) : prev?.kg !== undefined ? String(prev.kg) : 'kg'} step="0.5" min={0}
                     onChange={(kg) => onSet({ ...s, kg })} />
                   <div className="unit">kg</div>
                 </div>
@@ -199,7 +212,7 @@ function ExerciseCard({ item, dose, date, sets, swapId, onHowTo, onSwap, onSet }
               <button className={`tick${s.done ? ' on' : ''}`} aria-label={`Set ${i + 1} done`} aria-pressed={s.done}
                 onClick={() => onSet({
                   ...s,
-                  kg: s.kg ?? (withKg ? prev?.kg : undefined),
+                  kg: s.kg ?? (withKg ? useKg ?? prev?.kg : undefined),
                   reps: s.reps ?? prev?.reps ?? dose.high,
                   done: !s.done,
                 })}>

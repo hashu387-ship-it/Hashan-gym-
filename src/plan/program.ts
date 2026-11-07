@@ -89,6 +89,19 @@ export const SESSIONS: Record<SessionId, Session> = {
       finisher,
     ],
   },
+  fullBody: {
+    id: 'fullBody', title: 'Full body', focus: 'Squat, press, row', kind: 'weights',
+    notes: ['A 6th weight session with different exercises from the other days, so those muscles can recover. About 60 minutes, then a 15-minute incline walk.'],
+    items: [
+      item('hack-squat', d(3, 10, 12), { alternatives: ['goblet-squat', 'leg-press'] }),
+      item('db-bench', d(3, 10, 12), { alternatives: ['machine-chest-press', 'push-up'] }),
+      item('machine-row', d(3, 10, 12), { alternatives: ['seated-cable-row', 'one-arm-db-row'] }),
+      item('db-shoulder-press', d(3, 10, 12)),
+      item('walking-lunge', d(2, 10), { unit: 'perSide', alternatives: ['step-up'] }),
+      item('plank', d(3, 30, 45), { unit: 'seconds' }),
+      finisher,
+    ],
+  },
   cardio: {
     id: 'cardio', title: 'Easy cardio', focus: '45-60 minutes, talking pace', kind: 'cardio',
     notes: ['Keep your heart rate around 113-132 bpm. Choose the treadmill, bike or elliptical.'],
@@ -106,8 +119,8 @@ export const SESSIONS: Record<SessionId, Session> = {
   },
 };
 
-/** Normal week: Sunday (0) to Saturday (6). */
-export const WEEK_SCHEDULE: SessionId[] = ['upperA', 'lowerA', 'upperB', 'lowerB', 'circuit', 'rest', 'cardio'];
+/** Normal week: Sunday (0) to Saturday (6). Friday is the only rest day. */
+export const WEEK_SCHEDULE: SessionId[] = ['upperA', 'lowerA', 'upperB', 'lowerB', 'circuit', 'rest', 'fullBody'];
 /** Ramadan week: 4 lighter weight sessions Sunday-Wednesday, walk on Saturday. */
 export const RAMADAN_SCHEDULE: SessionId[] = ['upperA', 'lowerA', 'upperB', 'lowerB', 'rest', 'rest', 'ramadanWalk'];
 

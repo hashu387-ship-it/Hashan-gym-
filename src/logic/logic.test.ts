@@ -7,7 +7,7 @@ import type { Settings } from '../plan/types';
 import { dayContext } from './context';
 import { addDays, diffDays, riyadhHour, todayRiyadh, weekday } from './dates';
 import { bmi, dayTotals, isCheckDay, targetWeightAt, twoWeekCheck, type WeighIn } from './checks';
-import { e1rm, progressionHint } from './strength';
+import { e1rm, weightAdvice } from './strength';
 import { buildIcs } from './ics';
 
 const s: Settings = DEFAULT_SETTINGS;
@@ -64,7 +64,7 @@ describe('dayContext phases', () => {
     expect(dayContext('2026-11-08', s).sessionId).toBe('upperA'); // Sunday
     expect(dayContext('2026-11-12', s).sessionId).toBe('circuit'); // Thursday
     expect(dayContext('2026-11-13', s).sessionId).toBe('rest'); // Friday
-    expect(dayContext('2026-11-14', s).sessionId).toBe('cardio'); // Saturday
+    expect(dayContext('2026-11-14', s).sessionId).toBe('fullBody'); // Saturday: weights, Friday is the only rest day
     expect(dayContext('2027-02-11', s).sessionId).toBe('rest'); // Ramadan Thursday
     expect(dayContext('2027-02-13', s).sessionId).toBe('ramadanWalk'); // Ramadan Saturday
     expect(dayContext('2027-02-07', s).sessionId).toBe('rest');
@@ -119,6 +119,7 @@ describe('prescription', () => {
     expect(prescription(bench, 'ramadan')).toEqual({ sets: 3, low: 8, high: 10 });
     expect(sessionItems(SESSIONS.upperA, 'ramadan')).toHaveLength(4);
     expect(sessionItems(SESSIONS.upperA, 'build')).toHaveLength(7);
+    expect(sessionItems(SESSIONS.fullBody, 'foundation')).toHaveLength(7);
   });
 });
 
@@ -184,16 +185,43 @@ describe('strength', () => {
     expect(e1rm(100, 10)).toBe(133.3);
     expect(e1rm(80, 1)).toBe(80);
   });
-  it('suggests more weight after hitting the top of the range', () => {
-    const bench = SESSIONS.upperA.items[0];
-    const squat = SESSIONS.lowerA.items[0];
-    const sets = (id: string, kg: number, reps: number, n = 3) =>
-      Array.from({ length: n }, (_, i) => ({ exerciseId: id, setIndex: i, kg, reps, done: true }));
-    const dose = { sets: 3, low: 8, high: 10 };
-    expect(progressionHint(EXERCISE_BY_ID['bench-press'], bench, sets('bench-press', 60, 10), dose)).toBe('Last time 3x10 at 60 kg - try 62.5 kg');
-    expect(progressionHint(EXERCISE_BY_ID['back-squat'], squat, sets('back-squat', 80, 10), dose)).toBe('Last time 3x10 at 80 kg - try 85 kg');
-    expect(progressionHint(EXERCISE_BY_ID['bench-press'], bench, sets('bench-press', 60, 8), dose)).toBe('Last time 3x8 at 60 kg');
-    expect(progressionHint(EXERCISE_BY_ID['bench-press'], bench, [], dose)).toBeNull();
+  const sets = (id: string, kg: number, reps: number, n = 3) =>
+    Array.from({ length: n }, (_, i) => ({ exerciseId: id, setIndex: i, kg, reps, done: true }));
+  const bench = SESSIONS.upperA.items[0];
+  const squat = SESSIONS.lowerA.items[0];
+  const curl = SESSIONS.upperB.items[4];
+  const dose = { sets: 3, low: 8, high: 10 };
+
+  it('starts every weighted exercise at its starting weight', () => {
+    const a = weightAdvice(EXERCISE_BY_ID['bench-press'], bench, [], dose, 'foundation')!;
+    expect(a.kg).toBe(40);
+    expect(a.label).toBe('total (bar + plates)');
+    expect(a.reason).toContain('Starting weight');
+    expect(weightAdvice(EXERCISE_BY_ID['back-squat'], squat, [], dose, 'foundation')!.kg).toBe(40);
+    expect(weightAdvice(EXERCISE_BY_ID['db-curl'], curl, [], dose, 'foundation')).toMatchObject({ kg: 8, label: 'each dumbbell' });
+  });
+  it('adds one step after every set reached the top of the range', () => {
+    expect(weightAdvice(EXERCISE_BY_ID['bench-press'], bench, sets('bench-press', 40, 10), dose, 'foundation')).toMatchObject({ kg: 42.5, up: true });
+    expect(weightAdvice(EXERCISE_BY_ID['back-squat'], squat, sets('back-squat', 40, 10), dose, 'foundation')).toMatchObject({ kg: 45, up: true });
+    expect(weightAdvice(EXERCISE_BY_ID['db-curl'], curl, sets('db-curl', 8, 10), dose, 'build')).toMatchObject({ kg: 10, up: true });
+  });
+  it('stays at the same weight until every set hits the top', () => {
+    const a = weightAdvice(EXERCISE_BY_ID['bench-press'], bench, sets('bench-press', 40, 8), dose, 'foundation')!;
+    expect(a).toMatchObject({ kg: 40, up: false });
+    expect(a.reason).toBe('Last time 3x8 at 40 kg. Stay at this weight until every set reaches 10 reps.');
+    expect(weightAdvice(EXERCISE_BY_ID['bench-press'], bench, sets('bench-press', 40, 10, 2), dose, 'foundation')!.kg).toBe(40);
+  });
+  it('goes about 10 percent lighter in the recovery week and Ramadan', () => {
+    expect(weightAdvice(EXERCISE_BY_ID['back-squat'], squat, sets('back-squat', 60, 8), dose, 'recovery')!.kg).toBe(55);
+    expect(weightAdvice(EXERCISE_BY_ID['bench-press'], bench, sets('bench-press', 50, 8), dose, 'ramadan')!.kg).toBe(45);
+  });
+  it('lowers assistance for assisted pull-ups and shows body weight when there is no load', () => {
+    const lat = SESSIONS.upperB.items[0];
+    expect(weightAdvice(EXERCISE_BY_ID['assisted-pullup'], lat, sets('assisted-pullup', 40, 10), dose, 'foundation')).toMatchObject({ kg: 35, up: true });
+    const plank = SESSIONS.lowerA.items[5];
+    expect(weightAdvice(EXERCISE_BY_ID['plank'], plank, [], dose, 'foundation')).toBeNull();
+    const lunge = SESSIONS.fullBody.items[4];
+    expect(weightAdvice(EXERCISE_BY_ID['walking-lunge'], lunge, [], dose, 'foundation')).toMatchObject({ kg: null, label: 'Body weight' });
   });
 });
 
@@ -201,13 +229,13 @@ describe('calendar files', () => {
   it('builds the work-day calendar', () => {
     const ics = buildIcs('Hashan Fit', workDayEvents());
     expect(ics.startsWith('BEGIN:VCALENDAR\r\n')).toBe(true);
-    expect(ics.match(/BEGIN:VEVENT/g)).toHaveLength(16);
+    expect(ics.match(/BEGIN:VEVENT/g)).toHaveLength(15);
     expect(ics).toContain('DTSTART;TZID=Asia/Riyadh:20261108T190000');
-    expect(ics).toContain('RRULE:FREQ=WEEKLY;BYDAY=SU,MO,TU,WE,TH;UNTIL=20270206T205959Z');
+    expect(ics).toContain('RRULE:FREQ=WEEKLY;BYDAY=SU,MO,TU,WE,TH,SA;UNTIL=20270206T205959Z');
     expect(ics).toContain('DTSTART;TZID=Asia/Riyadh:20261108T090000');
     expect(ics).toContain('RRULE:FREQ=DAILY;UNTIL=20270102T205959Z');
     expect(ics).toContain('DTSTART;TZID=Asia/Riyadh:20261113T080000'); // first Friday weigh-in
-    expect(ics).toContain('DTSTART;TZID=Asia/Riyadh:20261114T190000'); // first Saturday cardio
+    expect(ics).not.toContain('Easy cardio');
     expect(ics).toContain('DTSTART;TZID=Asia/Riyadh:20261108T231500'); // week 1 sleep
     expect(ics).toContain('DTSTART;TZID=Asia/Riyadh:20261122T223000'); // week 3 sleep
     for (const line of ics.split('\r\n')) expect(line.length).toBeLessThanOrEqual(75);
